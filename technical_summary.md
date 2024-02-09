@@ -29,7 +29,7 @@ respectively.
 
 - **Population:**  A total number of 48943 users were examined in the test groups out of which 24343 was randomly allocated into the control group while 24600 into the treatment group. 
 
-- **Duration:** The start and end dates of the experiments are 2023-01-25 and 2023-02-06 respectiveky, making it a duration of 12 days in total.
+- **Duration:** The start and end dates of the experiments are 2023-01-25 and 2023-02-06 respectively, making it a duration of 12 days in total.
 
 - **Success Metrics:** The success of the display banner was evaluated by comparing conversion rates between the test and control groups, with a significance level of 5% and a confidence interval of 95%. Additionally, the average total spend per group was analyzed, also at a significance level of 5% and a confidence interval of 95%.
 
@@ -44,21 +44,21 @@ Below are the sql queries
 
 ```sql
 
-/**Calculating the conversion rate of all users? 
+/**Calculating the conversion rate of all users 
 (Total numnber of conversion (spent)/ total users) * 100
 **/
 Select
-	(count(distinct act.uid)/count(distinct users.id)::numeric) *100
+   (count(distinct act.uid)/count(distinct users.id)::numeric) *100
 from users 
 left join activity as act
 on users.id = act.uid
 ;
 
---Calculating the user conversion rate for the control and treatment groups?
+--Calculating the user conversion rate for the control and treatment groups
 
 with count_conv as (select grp.group, grp.uid,
 
-		case
+    case
        when sum(act.spent) > 0 then 1   
        else 0
     end as conversions    
@@ -69,14 +69,14 @@ on grp.uid = act.uid
 
 group by grp.uid
 )
-select cc.group, avg(conversions)*100 --/coun
+select cc.group, avg(conversions)*100 
 from count_conv as cc
 group by cc.group
 ;
 
 /**Calculating the average amount spent per user 
 for the control and treatment groups, 
-including users who did not convert?**/
+including users who did not convert**/
 
 select grp.group, sum(act.spent)/count(distinct grp.uid) as avg_spent
 from groups as grp
