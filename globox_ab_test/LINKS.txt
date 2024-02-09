@@ -1,0 +1,9 @@
+# resource links
+
+google sheets link : https://docs.google.com/spreadsheets/d/1KTmuilnAC91nNfgj6wyNM3qQotfwxMEimbTsN-AOzQQ/edit?usp=sharing
+
+python notebook link : https://colab.research.google.com/drive/15WPtkfrQkJ85faJ1Oce_vjjK32gnKnoF?usp=sharing
+
+tableau public link: https://public.tableau.com/views/GloBoxDashboard_17052848551170/Dashboard1?:language=en-US&publish=yes&:display_count=n&:origin=viz_share_link
+
+presentation video link: https://youtu.be/sQstjFzjTfY
