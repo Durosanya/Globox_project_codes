@@ -41,8 +41,29 @@ Queries were executed to extract key metrics such as conversion rates, conversio
 
 Below are the sql queries
 
-
 ```sql
+
+--Calculating the start and end dates of the experiment
+Select 
+    min(join_dt) as start_date, 
+    max(join_dt) as end_date, 
+    max(join_dt)-min(join_dt) as duration
+from groups
+;
+
+Number of users were in the control and treatment groups?
+select 
+     count(case
+            when grp.group = 'A' then 'control'
+          end) as control_users,     
+    count(case
+          	when grp.group = 'B' then 'treatment'
+          end) as treatment_users
+from groups as grp
+
+where grp.group IN ('A', 'B')
+;
+--control_users: 24343. treatment_users: 24600
 
 /**Calculating the conversion rate of all users 
 (Total numnber of conversion (spent)/ total users) * 100
@@ -78,7 +99,8 @@ group by cc.group
 for the control and treatment groups, 
 including users who did not convert**/
 
-select grp.group, sum(act.spent)/count(distinct grp.uid) as avg_spent
+select grp.group,
+       sum(act.spent)/count(distinct grp.uid) as avg_spent
 from groups as grp
 left join activity as act on grp.uid = act.uid
 
@@ -96,8 +118,8 @@ group by grp.group
 having sum(act.spent) is not null
 ;
 
-/** SQL query that returns: 
-the user ID, the user’s country, the user’s gender, the user’s device type, the user’s test group, 
+/**  
+Query that returns the user ID, the user’s country, the user’s gender, the user’s device type, the user’s test group, 
 whether or not they converted (spent > $0), and how much they spent in total ($0+).
 This is the sample data used for the statistical test**/
 
@@ -113,6 +135,7 @@ FROM users AS u
 LEFT JOIN groups AS grp ON u.id = grp.uid
 LEFT JOIN activity AS act ON u.id = act.uid
 GROUP BY u.id, u.country, u.gender, grp.device, grp.group
+;
 
 ```
 
@@ -157,4 +180,14 @@ The statistically significant increase in conversion rates provides a strong rat
 Launching the banner is worthwhile even if only one success measure shows a significant increase. Moreover,the banner is not difficult to launch and manage. Therefore, I recommend that we launch the experiment.
 - **Further Analysis:** 
 Supplement quantitative data with qualitative insights gathered from user surveys, interviews, or usability tests. Qualitative analysis can provide valuable context and deeper understanding of user motivations, preferences, and pain points, helping to refine the design and messaging of the display banner for maximum impact.
+
+## Link to other contributing analysis
+spreadsheets statistical analysis : https://docs.google.com/spreadsheets/d/1KTmuilnAC91nNfgj6wyNM3qQotfwxMEimbTsN-AOzQQ/edit?usp=sharing
+
+python analysis link : https://colab.research.google.com/drive/15WPtkfrQkJ85faJ1Oce_vjjK32gnKnoF?usp=sharing
+
+tableau dashboard link: https://public.tableau.com/views/GloBoxDashboard_17052848551170/Dashboard1?:language=en-US&publish=yes&:display_count=n&:origin=viz_share_link
+
+
+
 
